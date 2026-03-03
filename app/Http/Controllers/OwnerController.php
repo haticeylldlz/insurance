@@ -13,7 +13,7 @@ class OwnerController extends Controller
     public function index()
     {
         $owners = Owner::all();
-        return view('owners.index', compact('owners'));
+       return view('owners.index', compact('owners'));
     }
 
     /**
@@ -38,8 +38,13 @@ class OwnerController extends Controller
      */
     public function show(Owner $owner)
     {
-        //
-    }
+        // Bu Owner'ın sahip olduğu arabaları alıyoruz
+           $cars = $owner->cars;
+
+           // owners/show.blade.php sayfasına gönderiyoruz
+           return view('owners.show', compact('owner', 'cars'));
+       }
+    
 
     /**
      * Show the form for editing the specified resource.
