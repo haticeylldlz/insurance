@@ -3,7 +3,11 @@
 @section('content')
 <div class="container">
     <h2>Cars</h2>
-    <a href="{{ route('cars.create') }}" class="btn btn-success mb-3">Add Car</a>
+
+    {{-- SADECE ADMIN --}}
+    @if(auth()->user() && auth()->user()->role === 'admin')
+        <a href="{{ route('cars.create') }}" class="btn btn-success mb-3">Add Car</a>
+    @endif
 
     @if($cars->count() > 0)
     <div class="table-responsive">
@@ -27,13 +31,22 @@
                     <td>{{ $car->model }}</td>
                     <td>{{ $car->owner->name ?? '' }} {{ $car->owner->surname ?? '' }}</td>
                     <td>
+
                         <a href="{{ route('cars.show', $car) }}" class="btn btn-info btn-sm">View</a>
-                        <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('cars.destroy', $car) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm">Delete</button>
-                        </form>
+
+                        {{-- SADECE ADMIN --}}
+                        @if(auth()->user() && auth()->user()->role === 'admin')
+
+                            <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                            <form action="{{ route('cars.destroy', $car) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+
+                        @endif
+
                     </td>
                 </tr>
                 @endforeach

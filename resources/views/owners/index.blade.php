@@ -3,7 +3,12 @@
 
 @section('content')
 <h2>Car Owners</h2>
-<a href="{{ route('owners.create') }}" class="btn btn-success mb-3">Add Owner</a>
+
+{{-- SADECE ADMIN GÖRÜR --}}
+@if(auth()->user() && auth()->user()->role === 'admin')
+    <a href="{{ route('owners.create') }}" class="btn btn-success mb-3">Add Owner</a>
+@endif
+
 <div class="table-responsive">
     <table class="table table-bordered table-hover">
         <tr>
@@ -18,15 +23,25 @@
             <td>{{ $owner->name }}</td>
             <td>{{ $owner->surname }}</td>
             <td>
-                <a href="{{ route('owners.edit', $owner) }}" class="btn btn-warning">Edit</a>
-                <form action="{{ route('owners.destroy', $owner) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger">Delete</button>
-                </form>
+
+                {{-- SADECE ADMIN --}}
+                @if(auth()->user() && auth()->user()->role === 'admin')
+
+                    <a href="{{ route('owners.edit', $owner) }}" class="btn btn-warning">Edit</a>
+
+                    <form action="{{ route('owners.destroy', $owner) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+
+                @else
+                    <span class="text-muted">No actions</span>
+                @endif
+
             </td>
         </tr>
         @endforeach
     </table>
 </div>
-
+@endsection
