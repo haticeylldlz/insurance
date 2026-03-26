@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="container">
-    <h2>Add Owner</h2>
+    <h2>{{ __('Add Owner') }}</h2>
 
     <form action="{{ route('owners.store') }}" method="POST">
         @csrf
-        <input type="text" name="name" class="form-control mb-2" placeholder="Name">
-        <input type="text" name="surname" class="form-control mb-2" placeholder="Surname">
-        <button class="btn btn-success">Save</button>
+        <input type="text" name="name" class="form-control mb-2" placeholder="{{ __('Name') }}">
+        <input type="text" name="surname" class="form-control mb-2" placeholder="{{ __('Surname') }}">
+        <button class="btn btn-success">{{ __('Save') }}</button>
     </form>
 </div>
 @endsection

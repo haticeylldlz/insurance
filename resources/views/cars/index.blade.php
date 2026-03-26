@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="container">
-    <h2>Cars</h2>
+    <h2>{{ __('Cars') }}</h2>
 
     {{-- SADECE ADMIN --}}
     @if(auth()->user() && auth()->user()->role === 'admin')
-        <a href="{{ route('cars.create') }}" class="btn btn-success mb-3">Add Car</a>
+        <a href="{{ route('cars.create') }}" class="btn btn-success mb-3">{{ __('Add Car') }}</a>
     @endif
 
     @if($cars->count() > 0)
@@ -14,12 +14,12 @@
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Reg Number</th>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Owner</th>
-                    <th>Actions</th>
+                    <th>{{ __('ID') }}</th>
+                    <th>{{ __('Reg Number') }}</th>
+                    <th>{{ __('Brand') }}</th>
+                    <th>{{ __('Model') }}</th>
+                    <th>{{ __('Owner') }}</th>
+                    <th>{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,17 +32,17 @@
                     <td>{{ $car->owner->name ?? '' }} {{ $car->owner->surname ?? '' }}</td>
                     <td>
 
-                        <a href="{{ route('cars.show', $car) }}" class="btn btn-info btn-sm">View</a>
+                        <a href="{{ route('cars.show', $car) }}" class="btn btn-info btn-sm">{{ __('View') }}</a>
 
                         {{-- SADECE ADMIN --}}
                         @if(auth()->user() && auth()->user()->role === 'admin')
 
-                            <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning btn-sm">{{ __('Edit') }}</a>
 
                             <form action="{{ route('cars.destroy', $car) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger btn-sm">Delete</button>
+                                <button class="btn btn-danger btn-sm">{{ __('Delete') }}</button>
                             </form>
 
                         @endif
@@ -54,7 +54,7 @@
         </table>
     </div>
     @else
-        <p>No cars yet.</p>
+        <p>{{ __('No cars yet.') }}</p>
     @endif
 </div>
 @endsection

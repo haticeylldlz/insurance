@@ -6,29 +6,29 @@
 
     {{-- SADECE ADMIN --}}
     @if(auth()->user() && auth()->user()->role === 'admin')
-        <a href="{{ route('owners.edit', $owner) }}" class="btn btn-warning mb-2">Edit Owner</a>
+        <a href="{{ route('owners.edit', $owner) }}" class="btn btn-warning mb-2">{{ __('Edit Owner') }}</a>
 
         <form action="{{ route('owners.destroy', $owner) }}" method="POST" style="display:inline;">
             @csrf
             @method('DELETE')
-            <button class="btn btn-danger mb-2">Delete Owner</button>
+            <button class="btn btn-danger mb-2">{{ __('Delete Owner') }}</button>
         </form>
     @endif
 
-    <h3>Cars</h3>
+    <h3>{{ __('Cars') }}</h3>
 
     @if($cars->count() > 0)
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>Registration Number</th>
-                    <th>Brand</th>
-                    <th>Model</th>
+                    <th>{{ __('Registration Number') }}</th>
+                    <th>{{ __('Brand') }}</th>
+                    <th>{{ __('Model') }}</th>
 
                     {{-- ADMIN için action kolonu --}}
                     @if(auth()->user() && auth()->user()->role === 'admin')
-                        <th>Actions</th>
+                        <th>{{ __('Actions') }}</th>
                     @endif
                 </tr>
             </thead>
@@ -42,12 +42,12 @@
                     {{-- SADECE ADMIN --}}
                     @if(auth()->user() && auth()->user()->role === 'admin')
                     <td>
-                        <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning btn-sm">{{ __('Edit') }}</a>
 
                         <form action="{{ route('cars.destroy', $car) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-danger btn-sm">Delete</button>
+                            <button class="btn btn-danger btn-sm">{{ __('Delete') }}</button>
                         </form>
                     </td>
                     @endif
@@ -58,9 +58,9 @@
         </table>
     </div>
     @else
-        <p>No cars for this owner yet.</p>
+        <p>{{ __('No cars for this owner yet.') }}</p>
     @endif
 
-    <a href="{{ route('owners.index') }}" class="btn btn-primary mt-3">Back to Owners</a>
+    <a href="{{ route('owners.index') }}" class="btn btn-primary mt-3">{{ __('Back to Owners') }}</a>
 </div>
 @endsection
