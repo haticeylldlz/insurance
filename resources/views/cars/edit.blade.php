@@ -4,23 +4,67 @@
 <div class="container">
     <h2>{{ __('Edit Car') }}</h2>
 
-    <form action="{{ route('cars.update', $car) }}" method="POST">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('cars.update', $car) }}" method="POST" novalidate>
         @csrf
         @method('PUT')
-        <input type="text" name="reg_number" class="form-control mb-2" value="{{ $car->reg_number }}" placeholder="{{ __('Registration Number') }}" required>
-        <input type="text" name="brand" class="form-control mb-2" value="{{ $car->brand }}" placeholder="{{ __('Brand') }}" required>
-        <input type="text" name="model" class="form-control mb-2" value="{{ $car->model }}" placeholder="{{ __('Model') }}" required>
 
-        <select name="owner_id" class="form-control mb-2" required>
-            <option value="">{{ __('Select Owner') }}</option>
-            @foreach($owners as $owner)
-                <option value="{{ $owner->id }}" @if($owner->id == $car->owner_id) selected @endif>
-                    {{ $owner->name }} {{ $owner->surname }}
-                </option>
-            @endforeach
-        </select>
+        <div class="mb-3">
+            <label for="reg_number" class="form-label">{{ __('Registration Number') }}</label>
+            <input type="text" name="reg_number" id="reg_number"
+                   value="{{ old('reg_number', $car->reg_number) }}"
+                   class="form-control @error('reg_number') is-invalid @enderror"
+                   placeholder="{{ __('Registration Number') }}" autocomplete="off" maxlength="32">
+            @error('reg_number')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
-        <button class="btn btn-success">{{ __('Update') }}</button>
+        <div class="mb-3">
+            <label for="brand" class="form-label">{{ __('Brand') }}</label>
+            <input type="text" name="brand" id="brand" value="{{ old('brand', $car->brand) }}"
+                   class="form-control @error('brand') is-invalid @enderror"
+                   placeholder="{{ __('Brand') }}" autocomplete="off">
+            @error('brand')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="model" class="form-label">{{ __('Model') }}</label>
+            <input type="text" name="model" id="model" value="{{ old('model', $car->model) }}"
+                   class="form-control @error('model') is-invalid @enderror"
+                   placeholder="{{ __('Model') }}" autocomplete="off">
+            @error('model')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="owner_id" class="form-label">{{ __('Owner') }}</label>
+            <select name="owner_id" id="owner_id" class="form-select @error('owner_id') is-invalid @enderror">
+                <option value="">{{ __('Select Owner') }}</option>
+                @foreach($owners as $owner)
+                    <option value="{{ $owner->id }}" @selected(old('owner_id', $car->owner_id) == $owner->id)>
+                        {{ $owner->name }} {{ $owner->surname }}
+                    </option>
+                @endforeach
+            </select>
+            @error('owner_id')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
     </form>
 </div>
 @endsection
