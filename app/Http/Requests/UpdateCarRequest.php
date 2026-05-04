@@ -46,6 +46,10 @@ class UpdateCarRequest extends FormRequest
             'brand' => ['required', 'string', 'min:2', 'max:100'],
             'model' => ['required', 'string', 'min:1', 'max:100'],
             'owner_id' => ['required', 'integer', 'exists:owners,id'],
+            'photos' => ['nullable', 'array', 'max:10'],
+            'photos.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'delete_photo_ids' => ['nullable', 'array'],
+            'delete_photo_ids.*' => ['integer', Rule::exists('photos', 'id')->where('car_id', $car->id)],
         ];
     }
 
@@ -72,6 +76,14 @@ class UpdateCarRequest extends FormRequest
             'owner_id.required' => __('validation.car.owner_id.required'),
             'owner_id.integer' => __('validation.car.owner_id.integer'),
             'owner_id.exists' => __('validation.car.owner_id.exists'),
+            'photos.array' => __('validation.car.photos.array'),
+            'photos.max' => __('validation.car.photos.max'),
+            'photos.*.image' => __('validation.car.photos.image'),
+            'photos.*.mimes' => __('validation.car.photos.mimes'),
+            'photos.*.max' => __('validation.car.photos.file_max'),
+            'delete_photo_ids.array' => __('validation.car.delete_photo_ids.array'),
+            'delete_photo_ids.*.integer' => __('validation.car.delete_photo_ids.integer'),
+            'delete_photo_ids.*.exists' => __('validation.car.delete_photo_ids.exists'),
         ];
     }
 
@@ -85,6 +97,8 @@ class UpdateCarRequest extends FormRequest
             'brand' => __('Brand'),
             'model' => __('Model'),
             'owner_id' => __('Owner'),
+            'photos' => __('Car Photos'),
+            'delete_photo_ids' => __('Photos to delete'),
         ];
     }
 }

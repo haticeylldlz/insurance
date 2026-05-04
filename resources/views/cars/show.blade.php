@@ -10,6 +10,22 @@
     <p><strong>{{ __('Model') }}:</strong> {{ $car->model }}</p>
     <p><strong>{{ __('Owner') }}:</strong> {{ $car->owner->name ?? '' }} {{ $car->owner->surname ?? '' }}</p>
 
+    @if($car->photos->isNotEmpty())
+        <div class="mt-3">
+            <p><strong>{{ __('Car Photos') }}:</strong></p>
+            <div class="d-flex flex-wrap gap-3">
+                @foreach($car->photos as $photo)
+                    <img
+                        src="{{ asset('storage/' . $photo->path) }}"
+                        alt="{{ __('Car Photos') }}"
+                        class="rounded border"
+                        width="140"
+                    >
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     {{-- SADECE ADMIN --}}
     @if(auth()->user() && auth()->user()->role === 'admin')
 

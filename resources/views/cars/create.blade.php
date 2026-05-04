@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form action="{{ route('cars.store') }}" method="POST" novalidate>
+    <form action="{{ route('cars.store') }}" method="POST" enctype="multipart/form-data" novalidata>
         @csrf
         <div class="mb-3">
             <label for="reg_number" class="form-label">{{ __('Registration Number') }}</label>
@@ -43,6 +43,15 @@
                    placeholder="{{ __('Model') }}" autocomplete="off">
             @error('model')
                 <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-3">
+           <label class="form-label">{{ __('Car Photos') }}</label>
+             <input type="file" name="photos[]" multiple
+                class="form-control @error('photos.*') is-invalid @enderror">
+
+            @error('photos.*')
+                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
